@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import actions from '../../redux/contacts/contacts-actions';
+import { changeFilter } from '../../redux/contacts/contacts-actions';
 import { getFilter } from '../../redux/contacts/contacts-selectors';
 
 import styles from './Filter.module.css';
@@ -14,7 +14,7 @@ const Filter = () => {
       Find contacts by name
       <input
         value={value}
-        onChange={e => dispatch(actions.changeFilter(e.target.value))}
+        onChange={e => dispatch(changeFilter(e.target.value))}
         className={styles.input}
         name="filter"
         type="text"

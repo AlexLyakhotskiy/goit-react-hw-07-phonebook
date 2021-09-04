@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import actions from '../../redux/contacts/contacts-actions';
+import { deleteContact } from '../../redux/contacts/contacts-operations';
 import { getFiltredContact } from '../../redux/contacts/contacts-selectors';
 
 import styles from './ContactList.module.css';
@@ -17,7 +17,7 @@ const ContactList = () => {
           <p className={styles.text}>{name}:</p>
           <p className={styles.text}>{number}</p>
           <button
-            onClick={() => dispatch(actions.deleteContact(id))}
+            onClick={() => dispatch(deleteContact(id))}
             className={styles.button}
             type="button"
           >
