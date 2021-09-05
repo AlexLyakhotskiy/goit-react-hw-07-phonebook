@@ -12,31 +12,52 @@ import {
   deleteContactError,
 } from './contacts-actions';
 
-axios.defaults.baseURL = 'http://localhost:4040';
+import { getArrayFromObject } from '../../utils/functions';
 
-export const getContacts = () => dispatch => {
+// everything that is commented out for json-server
+// axios.defaults.baseURL = 'http://localhost:4040';
+axios.defaults.baseURL =
+  'https://phonebook-4ec2d-default-rtdb.europe-west1.firebasedatabase.app/';
+
+export const getContacts = () => async dispatch => {
   dispatch(getContactsRequest());
-
-  axios
-    .get('/contacts')
-    .then(({ data }) => dispatch(getContactsSuccess(data)))
-    .catch(error => dispatch(getContactsError(error)));
+  try {
+    // const { data } = await axios.get('/contacts');
+    const { data } = await axios.get('/contacts.json');
+    dispatch(
+      getContactsSuccess(
+        // data
+        getArrayFromObject(data),
+      ),
+    );
+  } catch (error) {
+    dispatch(getContactsError(error));
+  }
 };
 
-export const addContact = contact => dispatch => {
+export const addContact = contact => async dispatch => {
   dispatch(addContactRequest());
-
-  axios
-    .post('/contacts', contact)
-    .then(({ data }) => dispatch(addContactSuccess(data)))
-    .catch(error => dispatch(addContactError(error)));
+  try {
+    // const { data } = await axios.post('/contacts', contact);
+    const { data } = await axios.post('/contacts.json', contact);
+    dispatch(
+      addContactSuccess(
+        // data
+        { ...contact, id: data.name },
+      ),
+    );
+  } catch (error) {
+    dispatch(addContactError(error));
+  }
 };
 
-export const deleteContact = contactId => dispatch => {
+export const deleteContact = contactId => async dispatch => {
   dispatch(deleteContactRequest());
-
-  axios
-    .delete(`/contacts/${contactId}`)
-    .then(() => dispatch(deleteContactSuccess(contactId)))
-    .catch(error => dispatch(deleteContactError(error)));
+  try {
+    // await axios.delete(`/contacts/${contactId}`);
+    await axios.delete(`/contacts/${contactId}.json`);
+    dispatch(deleteContactSuccess(contactId));
+  } catch (error) {
+    dispatch(deleteContactError(error));
+  }
 };

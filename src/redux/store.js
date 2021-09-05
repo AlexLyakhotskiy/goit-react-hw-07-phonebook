@@ -24,5 +24,5 @@ const middleware = [
 export const store = configureStore({
   reducer: { contacts: contactsReducer },
   middleware,
-  devTools: process.env.NODE_ENV === 'development',
+  // devTools: process.env.NODE_ENV === 'development',
 });
